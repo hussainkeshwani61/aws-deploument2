@@ -89,7 +89,7 @@
                 return;
             }
 
-            const url = `api/calculator.php?operation=${operation}&a=${a}&b=${b}`;
+            const url = `/api/calculator.php?operation=${operation}&a=${a}&b=${b}`;
 
             fetch(url)
                 .then(response => response.json())
