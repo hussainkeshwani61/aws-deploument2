@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        select, input {
+            font-size: 16px;
+            margin: 5px;
+            padding: 8px;
+        }
+
+        button {
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .error {
+            color: #ff0000;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>PHP Calculator</h1>
+    
+    <label for="operation">Select Operation:</label>
+    <select id="operation">
+        <option value="add">Addition</option>
+        <option value="subtract">Subtraction</option>
+        <option value="multiply">Multiplication</option>
+        <option value="divide">Division</option>
+    </select>
+    
+    <br>
+    
+    <label for="a">Number A:</label>
+    <input type="number" id="a" required>
+    
+    <br>
+    
+    <label for="b">Number B:</label>
+    <input type="number" id="b" required>
+    
+    <br>
+    
+    <button onclick="calculate()">Calculate</button>
+    
+    <div id="result"></div>
+    <div id="error" class="error"></div>
+
+    <script>
+        function calculate() {
+            const operation = document.getElementById('operation').value;
+            const a = document.getElementById('a').value;
+            const b = document.getElementById('b').value;
+            const errorElement = document.getElementById('error');
+
+            if (a === '' || b === '') {
+                errorElement.innerHTML = 'Please enter values for both numbers.';
+                return;
+            }
+
+            const url = `api/calculator.php?operation=${operation}&a=${a}&b=${b}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('result').innerHTML = `Result: ${data.result}`;
+                    errorElement.innerHTML = '';
+                })
+                .catch(error => {
+                    errorElement.innerHTML = `Error: ${error.message}`;
+                });
+        }
+    </script>
+</body>
+</html>
